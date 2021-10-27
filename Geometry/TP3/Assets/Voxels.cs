@@ -144,27 +144,27 @@ public class Voxels : MonoBehaviour
     {
         List<Sphere> spheres = new List<Sphere>();
 
-        Draw(spheres, ref cubes, ref values);
+        //Draw(spheres, ref cubes, ref values);
         //Intersection(spheres);
         //Minus(spheres[0], spheres[1]);
 
-        ////Intersection
-        //spheres.Add(new Sphere(new Vector3(2.5f, 0f, 0f), 1f));
-        //spheres.Add(new Sphere(new Vector3(2.5f, 0.5f, 0f), 1f));
-        //Intersection(spheres);
-        //spheres.Clear();
+        //Intersection
+        spheres.Add(new Sphere(new Vector3(2.5f, 0f, 0f), 1f));
+        spheres.Add(new Sphere(new Vector3(2.5f, 0.5f, 0f), 1f));
+        Intersection(spheres);
+        spheres.Clear();
 
-        ////Substraction
-        //spheres.Add(new Sphere(new Vector3(0f, 0.5f, 0f), 1f));
-        //spheres.Add(new Sphere(new Vector3(0f, 0f, 0f), 1f));
-        //Minus(spheres[1], spheres[0]);
-        //spheres.Clear();
+        //Substraction
+        spheres.Add(new Sphere(new Vector3(0f, 0.5f, 0f), 1f));
+        spheres.Add(new Sphere(new Vector3(0f, 0f, 0f), 1f));
+        Minus(spheres[1], spheres[0]);
+        spheres.Clear();
 
-        ////Discrete
-        //spheres.Add(new Sphere(new Vector3(-2.5f, 0f, 0f), 1f));
-        //Draw(spheres, ref cubes, ref values);
-        //MakeDiscrete(ref cubes, ref values, 2.0f);
-        //spheres.Clear();
+        //Discrete
+        spheres.Add(new Sphere(new Vector3(-2.5f, 0f, 0f), 1f));
+        Draw(spheres, ref cubes, ref values);
+        MakeDiscrete(ref cubes, ref values, 2.0f);
+        spheres.Clear();
     }
 
     // Update is called once per frame
