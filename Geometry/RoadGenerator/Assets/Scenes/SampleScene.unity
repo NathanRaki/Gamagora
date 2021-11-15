@@ -259,20 +259,20 @@ MonoBehaviour:
   Magnitude: 1.5
   TerrainGradient:
     serializedVersion: 2
-    key0: {r: 0, g: 1, b: 0.8622582, a: 1}
-    key1: {r: 1, g: 0.9911243, b: 0.5896226, a: 1}
-    key2: {r: 0.5943396, g: 0.34250963, b: 0, a: 0}
-    key3: {r: 0, g: 0.8018868, b: 0.16763821, a: 0}
-    key4: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 0}
-    key5: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0}
+    key0: {r: 0, g: 0, b: 0, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 1, g: 1, b: 1, a: 0}
+    key3: {r: 1, g: 1, b: 1, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 1, g: 1, b: 1, a: 0}
     key6: {r: 1, g: 1, b: 1, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 9445
-    ctime2: 20817
-    ctime3: 30262
-    ctime4: 43176
-    ctime5: 54934
+    ctime1: 65535
+    ctime2: 65535
+    ctime3: 65535
+    ctime4: 65535
+    ctime5: 65535
     ctime6: 65535
     ctime7: 0
     atime0: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_NumColorKeys: 7
+    m_NumColorKeys: 2
     m_NumAlphaKeys: 2
 --- !u!23 &1420862795
 MeshRenderer:

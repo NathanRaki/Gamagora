@@ -21,7 +21,7 @@ public class RouteGenerator : MonoBehaviour
         _vertices = vertices;
         Debug.Log("RouteGenerator : " + _vertices.Length + " vertices");
 
-        RandomRoute();
+        //RandomRoute();
     }
 
     private void RandomRoute()

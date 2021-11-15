@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
@@ -37,6 +38,20 @@ public class MeshGenerator : MonoBehaviour
         }
     }
 
+    private List<int> GenerateRoad(int start, int end)
+    {
+        int[] pred = Dijkstra(start);
+        int cursor = end;
+        List<int> Road = new List<int>();
+        while (cursor != -1)
+        {
+            Road.Add(cursor);
+            cursor = pred[cursor];
+        }
+        Road.Reverse();
+        return Road;
+    }
+
     private void GenerateGraphe()
     {
         for (int i = 0; i < _vertices.Length; i++)
@@ -71,6 +86,62 @@ public class MeshGenerator : MonoBehaviour
                 }
             }
         }
+
+        for (int i = 0; i < G.adjMatrix.Count; i++)
+        {
+            for (int j = 0; j < G.adjMatrix[i].Count; j++)
+            {
+                if (G.adjMatrix[i][j] > Magnitude / 4f)
+                    G.adjMatrix[i][j] = 0f;
+            }
+        }
+    }
+
+
+
+    private int[] Dijkstra(int start)
+    {
+        List<int> poids = new List<int>();
+        float[] distance = new float[(XSize+1) * (ZSize+1)];
+        int[] pred = new int[(XSize + 1) * (ZSize + 1)];
+        for (int i = 0; i < (XSize + 1) * (ZSize + 1); ++i)
+        {
+            pred[i] = -1;
+        }
+
+        for (int i = 0; i < (XSize + 1) * (ZSize + 1); ++i)
+        {
+            distance[i] = float.PositiveInfinity;
+        }
+        distance[start] = 0;
+        int cursor = start;
+
+        KeyValuePair<float, int> min;
+        while (poids.Count < (XSize + 1) * (ZSize + 1))
+        {
+            min = new KeyValuePair<float, int> (float.PositiveInfinity, 0 );
+            for (int i = 0; i < (XSize + 1) * (ZSize + 1); ++i)
+            {
+                if (!poids.Contains(i))
+                    if (distance[i] < min.Key) { min = new KeyValuePair<float, int>(distance[i], i); break; }
+            }
+
+            cursor = min.Value;
+            poids.Add(cursor);
+
+            for (int i = 0; i < (XSize + 1) * (ZSize + 1); ++i)
+            {
+                if (!poids.Contains(i) && G.adjMatrix[cursor][i] != 0)
+                {
+                    if (distance[i] > distance[cursor] + G.adjMatrix[cursor][i])
+                    {
+                        distance[i] = distance[cursor] + G.adjMatrix[cursor][i];
+                        pred[i] = cursor;
+                    }
+                }
+            }
+        }
+        return pred;
     }
 
 
@@ -84,7 +155,8 @@ public class MeshGenerator : MonoBehaviour
         CreateShape();
         UpdateMesh();
         GenerateGraphe();
-        GetComponent<RouteGenerator>().InitVertices(_vertices);
+        //GetComponent<RouteGenerator>().InitVertices(_vertices);
+        
     }
 
     void CreateShape()
@@ -140,7 +212,6 @@ public class MeshGenerator : MonoBehaviour
                 i++;
             }
         }
-
     }
 
     void UpdateMesh()
@@ -160,23 +231,49 @@ public class MeshGenerator : MonoBehaviour
 
         for (int i = 0; i < _vertices.Length; i++)
         {
+            //UnityEditor.Handles.Label(_vertices[i] + Vector3.up, $"{i}");
             Gizmos.DrawSphere(_vertices[i], .1f);
         }
 
-        for (int i = 0; i < G.adjMatrix.Count; i++)
+
+        //for (int i = 0; i < G.adjMatrix.Count; i++)
+        //{
+        //    for (int j = 0; j < G.adjMatrix[i].Count; j++)
+        //    {
+
+        //        if (G.adjMatrix[i][j] == 0f) { continue; }
+        //        if (G.adjMatrix[i][j] < Magnitude / 4f)
+        //        {
+        //            if (G.adjMatrix[i][j] > (Magnitude / 4f) * 0.9f)
+        //                Gizmos.color = new Color(1f, 0.5f, 0f);
+        //            Gizmos.DrawLine(G.vertices[i], G.vertices[j]);
+        //            Gizmos.color = Color.white;
+        //        }
+        //    }
+        //}
+        //Gizmos.color = Color.blue;
+
+        //List<int> road2 = GenerateRoad(49, 32);
+        //for (int i = 0; i < road2.Count - 1; i++)
+        //{
+        //    Gizmos.DrawLine(G.vertices[road2[i]], G.vertices[road2[i + 1]]);
+        //}
+
+        //List<int> road3 = GenerateRoad(82, 99);
+        //for (int i = 0; i < road3.Count - 1; i++)
+        //{
+        //    Gizmos.DrawLine(G.vertices[road3[i]], G.vertices[road3[i + 1]]);
+        //}
+
+        Gizmos.color = Color.red;
+
+        List<int> road1 = GenerateRoad(3, 118);
+        for (int i = 0; i < road1.Count - 1; i++)
         {
-            for (int j = 0; j < G.adjMatrix[i].Count; j++)
-            {
-                if (G.adjMatrix[i][j] == 0f) { continue; }
-                if (G.adjMatrix[i][j] < Magnitude / 4f)
-                {
-                    if (G.adjMatrix[i][j] > (Magnitude / 4f) * 0.9f)
-                        Gizmos.color = new Color(1f, 0.5f, 0f);
-                    Gizmos.DrawLine(G.vertices[i], G.vertices[j]);
-                    Gizmos.color = Color.white;
-                }
-            }
+            Gizmos.DrawLine(G.vertices[road1[i]] + Vector3.up * 0.1f, G.vertices[road1[i + 1]] + Vector3.up * 0.1f);
         }
+
+        
     }
 
 }
